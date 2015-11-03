@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset ="UTF-8">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+
+
+
+      $.getJSON("http://cooper-union-search-proxy.herokuapp.com/twitter/search/%23pianodistrict?count=100000", function(response){
+
+        console.log("There are " + response.statuses.length + " tweets");
+
+        for(var i=0; i<response.statuses.length; i++) {
+          // console.log(response.statuses[i].text);
+          var locationsearch = response.statuses[i].user.location;
+          var bronx = "Bronx";
+          var username = response.statuses[i].user.screen_name;
+          var link = response.statuses[i].id_str;
+
+          function Voiceoflocation (tweetlocation, div){
+
+            if (locationsearch.indexOf(tweetlocation) >=0){
+              $(div).append("<div class='tweet'>“ " + response.statuses[i].text + "” <div class='user'>- <a href='https://twitter.com/" + username + "/status/" + link+"'>"+ username + "</a></div></div>");
+            }
+
+            else{
+              console.log("null");
+            }
+
+          }
+
+          Voiceoflocation(bronx, "#tweetholder");
+        }
+
+
+
+      });
+    </script>
+    <style>
+
+    body{
+    background-color:yellow;
+    }
+
+    h1{
+      font-size:50px;
+    }
+
+    #bodywrapper{
+      text-align:center;
+      width:50vw;
+      margin-left:25vw;
+      margin-top:20vh;
+    }
+
+    #header{
+      position:fixed;
+      top:0;
+      left:0;
+      background-color:yellow;
+      width:100vw;
+      border-bottom:1px dashed black;
+    }
+
+
+    .tweet{
+  margin-top:30vh;
+  margin-bottom:30vh;
+      font-size:40px;
+      line-height:50px;
+    }
+
+    a{
+      color:black;
+      text-decoration:none;
+    }
+
+    a:hover{
+      text-decoration:underline;
+    }
+
+    </style>
+  </head>
+  <body>
+
+    <div id="bodywrapper">
+    <div id="header"><h1>What does the Bronx think of <a href="https://twitter.com/search?q=%23PianoDistrict&src=typd&lang=en">#PianoDistrict?</a></h1></div>
+    <div id="tweetholder"></div>
+
+
+    </div>
+
+  </body>
+</html>
